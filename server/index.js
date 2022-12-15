@@ -29,6 +29,13 @@ app.get("/api/get/bikes", function (req, res) {
   });
 });
 
+app.get("/api/get/historic", function (req, res) {
+  const sqlSelect = "SELECT * FROM  historic";
+  db.query(sqlSelect, function (err, result) {
+    res.send(result);
+  });
+});
+
 app.post("/api/insert/register", function (req, res) {
   const full_name = req.body.full_name;
   const password = req.body.password;
@@ -49,20 +56,40 @@ app.post("/api/insert/register", function (req, res) {
   );
 });
 
+app.post("/api/insert/historic", function (req, res) {
+  const id = req.body.id;
+  const user = req.body.user;
+  const locator = req.body.locator;
+  const city = req.body.city;
+  const states = req.body.states;
+  const price = req.body.price;
+
+  const sqlInsert =
+    "INSERT INTO historic (id, user,locator, city, states, price) VALUES (?,?,?,?,?,?)";
+  db.query(
+    sqlInsert,
+    [id, user, locator, city, states, price],
+    function (err, result) {
+      console.log(err);
+    }
+  );
+});
+
 app.post("/api/insert/bike", function (req, res) {
   const id = req.body.id;
   const description = req.body.description;
   const locator = req.body.locator;
   const city = req.body.city;
+  const states = req.body.states;
   const state = req.body.state;
   const price = req.body.price;
   const photo = req.body.photo;
 
   const sqlInsert =
-    "INSERT INTO bikes (id, description, locator, city, state, price, photo) VALUES (?,?,?,?,?,?,?)";
+    "INSERT INTO bikes (id, description, locator, city, states, state, price, photo) VALUES (?,?,?,?,?,?,?,?)";
   db.query(
     sqlInsert,
-    [id, description, locator, city, state, price, photo],
+    [id, description, locator, city, states, state, price, photo],
     function (err, result) {
       console.log(err);
     }
