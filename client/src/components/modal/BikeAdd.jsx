@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
+import { Select, MenuItem } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import "./index.css";
 import Axios from "axios";
@@ -30,7 +31,6 @@ const BikeAdd = () => {
   const [id, setId] = useState("");
   const [description, setDescription] = useState("");
   const [locator, setLocator] = useState("");
-  const [city, setCity] = useState("");
   const [state, setState] = useState(true);
   const [price, setPrice] = useState("");
   const [photo, setPhoto] = useState("");
@@ -42,7 +42,8 @@ const BikeAdd = () => {
       id: id,
       description: description,
       locator: locator,
-      city: city,
+      city: citySelect,
+      states: uf,
       state: state,
       price: price,
       photo: photo,
@@ -53,7 +54,8 @@ const BikeAdd = () => {
       id === "" &&
       description === "" &&
       locator === "" &&
-      city === "" &&
+      citySelect === "" &&
+      uf === "" &&
       price === "" &&
       photo === ""
     ) {
@@ -63,9 +65,43 @@ const BikeAdd = () => {
     }
   };
 
+  const [uf, setUf] = useState("Minas Gerais");
+  const [listUf, setListUf] = useState([]);
+  const [citySelect, setCitySelect] = useState("");
+  const [listCity, setListCity] = useState([]);
+
+  function loadUf() {
+    let url = "https://servicodados.ibge.gov.br/";
+    url = url + "api/v1/localidades/estados";
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        data.sort((a, b) => a.nome.localeCompare(b.nome));
+        setListUf([...data]);
+      });
+  }
+  function loadCity(id) {
+    let url = "https://brasilapi.com.br/";
+    url = url + `api/ibge/municipios/v1/${id}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        data.sort((a, b) => a.nome.localeCompare(b.nome));
+        setListCity([...data]);
+      });
+  }
+  useEffect(() => {
+    loadUf();
+  }, []);
+  useEffect(() => {
+    if (uf) {
+      loadCity(uf);
+    }
+  }, [uf]);
+
   return (
     <div>
-      <Button variant="outlined" onClick={handleOpen}>
+      <Button variant="outlined" onClick={handleOpen} id={"addButton"}>
         Adicionar bicicleta de aluguel
       </Button>
       <Modal
@@ -114,16 +150,32 @@ const BikeAdd = () => {
                 setLocator(e.target.value);
               }}
             />
-            <TextField
-              id="outlined-error4"
-              label="Digite sua Cidade"
+            <Select
+              id="outlined-select1"
+              value={uf}
+              onChange={(e) => setUf(e.target.value)}
               size="medium"
               sx={{ width: "70%" }}
-              name={"city"}
-              onChange={(e) => {
-                setCity(e.target.value);
-              }}
-            />
+            >
+              {listUf.map((a, b) => (
+                <MenuItem id={b} value={a.sigla}>
+                  {a.sigla}
+                </MenuItem>
+              ))}
+            </Select>
+            <Select
+              id="outlined-select2"
+              value={citySelect}
+              onChange={(e) => setCitySelect(e.target.value)}
+              size="medium"
+              sx={{ width: "70%" }}
+            >
+              {listCity.map((a, b) => (
+                <MenuItem id={b} value={a.nome}>
+                  {a.nome}
+                </MenuItem>
+              ))}
+            </Select>
             <TextField
               id="outlined-error5"
               label="Digite o Preço"
