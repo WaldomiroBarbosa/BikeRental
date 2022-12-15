@@ -23,12 +23,12 @@ const style = {
   p: 4,
 };
 
-const BikeScreen = () => {
+const BikeAdminScreen = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [open, setOpen] = useState(false);
   const [profile, setProfile] = useState([]);
-  const name = "Thais de Souza";
+  const name = "Admin";
   const navigate = useNavigate();
   const [newDescription, setNewDescription] = useState("");
   const [newPrice, setNewPrice] = useState("");
@@ -60,19 +60,21 @@ const BikeScreen = () => {
         <h2>Bem-vindo(a)!</h2>
         <Stack spacing={0.5}>
           <h2>{name}</h2>
-          <h4>Usuária</h4>
+          <h4>Usuário Prioritário</h4>
           <h4>Itajubá - Minas Gerais</h4>
         </Stack>
       </div>
       <div className="personal__informations">
         {profile.map((values) => {
-          if (values.locator === name) {
+          if (values.locator === name || name === "Admin") {
             return (
               <>
                 <p>Id: {values.id}</p>
                 <p>Descrição: {values.description}</p>
                 <p>Locator: {values.locator}</p>
-                <p>Cidade: {values.city}</p>
+                <p>
+                  Cidade e Estado: {values.city} - {values.states}
+                </p>
                 <p>
                   Estado:{" "}
                   {values.state === 1 ? (
@@ -180,4 +182,4 @@ const BikeScreen = () => {
   );
 };
 
-export default BikeScreen;
+export default BikeAdminScreen;

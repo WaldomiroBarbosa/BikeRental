@@ -4,9 +4,7 @@ import { Stack } from "@mui/system";
 import Axios from "axios";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import TextField from "@mui/material/TextField";
+import EditModal from "../../../components/modal/Edit";
 
 const style = {
   position: "absolute",
@@ -81,71 +79,14 @@ const ProfileScreen = () => {
                   spacing="15px"
                   width={"100%"}
                 >
-                  <div>
-                    <Button variant="outlined" onClick={handleOpen}>
-                      Editar Informações
-                    </Button>
-                    <Modal
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                      sx={{
-                        overflow: "auto",
-                        marginTop: "1rem",
-                        marginBottom: "1rem",
-                        borderColor: "blue",
-                      }}
-                    >
-                      <Box sx={style}>
-                        <Stack alignItems={"center"} spacing={4}>
-                          <h2 className="main__container">
-                            Edite suas informações!
-                          </h2>
-                          <TextField
-                            id="outlined-error1"
-                            label="Escreva seu novo e-mail"
-                            size="medium"
-                            sx={{ width: "70%" }}
-                            name={"email"}
-                            onChange={(e) => {
-                              setNewEmail(e.target.value);
-                            }}
-                          />
-                          <TextField
-                            id="outlined-error2"
-                            label="Digite sua nova senha"
-                            size="medium"
-                            type={"password"}
-                            sx={{ width: "70%" }}
-                            name={"password"}
-                            onChange={(e) => {
-                              setNewPassword(e.target.value);
-                            }}
-                          />
-                          <TextField
-                            id="outlined-error3"
-                            label="Digite seu novo celular"
-                            size="medium"
-                            sx={{ width: "70%" }}
-                            name={"cellphone"}
-                            onChange={(e) => {
-                              setNewCellphone(e.target.value);
-                            }}
-                          />
-                          <Button
-                            variant="contained"
-                            sx={{ width: "70%" }}
-                            onClick={() => {
-                              handleEditUser(values.full_name);
-                            }}
-                          >
-                            Confirmar
-                          </Button>
-                        </Stack>
-                      </Box>
-                    </Modal>
-                  </div>
+                  <EditModal
+                    setEmail={(e) => setNewEmail(e.target.value)}
+                    setPassword={(e) => setNewPassword(e.target.value)}
+                    setCellphone={(e) => setNewCellphone(e.target.value)}
+                    onClick={() => {
+                      handleEditUser(values.full_name);
+                    }}
+                  />
                   <Button
                     variant="contained"
                     sx={{ width: "100%" }}

@@ -45,7 +45,7 @@ const EditModal = (props) => {
           <Stack alignItems={"center"} spacing={4}>
             <h2 className="main__container">Edite suas informações!</h2>
             <TextField
-              id="outlined-error10"
+              id="outlined-error311"
               label="Escreva seu novo e-mail"
               size="medium"
               sx={{ width: "70%" }}
@@ -53,7 +53,7 @@ const EditModal = (props) => {
               onChange={props.setEmail}
             />
             <TextField
-              id="outlined-error20"
+              id="outlined-error312"
               label="Digite sua nova senha"
               size="medium"
               type={"password"}
@@ -62,7 +62,7 @@ const EditModal = (props) => {
               onChange={props.setPassword}
             />
             <TextField
-              id="outlined-error30"
+              id="outlined-error313"
               label="Digite seu novo celular"
               size="medium"
               sx={{ width: "70%" }}
@@ -70,7 +70,7 @@ const EditModal = (props) => {
               onChange={props.setCellphone}
             />
             <Button
-              id={"buttonConfirm"}
+              id={"newConfirmButton"}
               variant="contained"
               sx={{ width: "70%" }}
               onClick={props.onClick}
